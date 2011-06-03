@@ -1,6 +1,6 @@
 package br.com.wave.populator.utils;
 
-import br.com.wave.populator.utils.ReflectionUtil;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -8,11 +8,14 @@ import org.junit.Test;
 
 import br.com.wave.populator.examples.E;
 import br.com.wave.populator.examples.H;
+import br.com.wave.populator.examples.I;
 import br.com.wave.populator.examples.NotSerializable;
 import br.com.wave.populator.examples.Serializable;
 
 @SuppressWarnings("unused")
 public class ReflectionUtilTest {
+	
+	private String atributo;
 	
 	private static String atributoEstatico;
 	
@@ -90,6 +93,21 @@ public class ReflectionUtilTest {
 		E e = new E();
 		
 		assertFalse(ReflectionUtil.contains(e.getClass().getDeclaredField("f"), e.getClass()));
+	}
+	
+	@Test
+	public void deveRetornarVerdadeiroSeAClasseTiverUmAtributoDaOutraClasse() throws SecurityException, NoSuchFieldException {
+		assertTrue(ReflectionUtil.contains(H.class, I.class));
+	}
+	
+	@Test
+	public void deveRetornarFalsoSeAClasseNaoTiverUmAtributoDaOutraClasse() throws SecurityException, NoSuchFieldException {
+		assertFalse(ReflectionUtil.contains(H.class, E.class));
+	}
+	
+	@Test
+	public void deveRetornarOAtributoDeUmaClassePeloNome() throws SecurityException, NoSuchFieldException {
+		assertEquals(ReflectionUtilTest.class.getDeclaredField("atributo"), ReflectionUtil.getField("atributo", ReflectionUtilTest.class));
 	}
 
 }

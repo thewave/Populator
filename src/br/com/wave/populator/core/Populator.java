@@ -6,6 +6,7 @@ import java.util.List;
 
 import br.com.wave.populator.enums.ErrorEnum;
 import br.com.wave.populator.exceptions.PopulatorException;
+import br.com.wave.populator.fillers.OneToManyBidirectionalFiller;
 import br.com.wave.populator.fillers.OneToManyFiller;
 import br.com.wave.populator.fillers.OneToOneBidirectionalFiller;
 import br.com.wave.populator.fillers.OneToOneFiller;
@@ -21,11 +22,12 @@ public class Populator {
     private OneToOneFiller oneToOneFiller;
     private OneToManyFiller oneToManyFiller;
     private OneToOneBidirectionalFiller oneToOneBidirectionalFiller;
+    private	OneToManyBidirectionalFiller oneToManyBidirectionalFiller;
 
     public Populator() {
         this.manager = new PatternManager();
 
-        this.scanner = new Scanner(this.manager);
+        this.scanner = new Scanner();
 
         this.trail = new Trail();
 
@@ -33,10 +35,12 @@ public class Populator {
         this.oneToOneFiller = new OneToOneFiller(this);
         this.oneToManyFiller = new OneToManyFiller(this);
         this.oneToOneBidirectionalFiller = new OneToOneBidirectionalFiller(this);
+        this.oneToManyBidirectionalFiller = new OneToManyBidirectionalFiller(this);
 
         this.patternFiller.setSuccessor(this.oneToOneFiller);
         this.oneToOneFiller.setSuccessor(this.oneToManyFiller);
         this.oneToManyFiller.setSuccessor(this.oneToOneBidirectionalFiller);
+        this.oneToOneBidirectionalFiller.setSuccessor(this.oneToManyBidirectionalFiller);
     }
 
     public <T> T populate(Class<T> klass) throws PopulatorException {

@@ -1,6 +1,7 @@
 package br.com.wave.populator.core;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 
 import java.util.Collection;
@@ -11,7 +12,7 @@ import org.junit.Test;
 
 import br.com.wave.populator.enums.ErrorEnum;
 import br.com.wave.populator.enums.FixedPatternEnum;
-import br.com.wave.populator.examples.A;
+import br.com.wave.populator.examples.AtributosFixos;
 import br.com.wave.populator.examples.A1;
 import br.com.wave.populator.examples.B;
 import br.com.wave.populator.examples.B1;
@@ -25,6 +26,8 @@ import br.com.wave.populator.examples.E;
 import br.com.wave.populator.examples.F;
 import br.com.wave.populator.examples.G;
 import br.com.wave.populator.examples.H;
+import br.com.wave.populator.examples.J;
+import br.com.wave.populator.examples.K;
 import br.com.wave.populator.examples.NotSerializable;
 import br.com.wave.populator.exceptions.PopulatorException;
 
@@ -53,7 +56,7 @@ public class PopulatorTest {
 
     @Test
     public void deveTerOsValoresPadroesParaAClasseA() throws PopulatorException {
-        A instance = this.populator.populate(A.class);
+        AtributosFixos instance = this.populator.populate(AtributosFixos.class);
 
         assertEquals(FixedPatternEnum.STRING.getValue(), instance.getStringField());
         assertEquals(FixedPatternEnum.INTEGER.getValue(), instance.getIntegerField());
@@ -66,7 +69,7 @@ public class PopulatorTest {
 
     @Test
     public void deveTerOsValoresPadroesParaUmObjetoDaClasseA() throws PopulatorException {
-        A instance = new A();
+        AtributosFixos instance = new AtributosFixos();
         this.populator.populate(instance);
 
         assertEquals(FixedPatternEnum.STRING.getValue(), instance.getStringField());
@@ -82,7 +85,7 @@ public class PopulatorTest {
     public void deveManterOsValoresParaUmObjetoDaClasseA() throws PopulatorException {
         String valor = "Teste";
 
-        A instance = new A();
+        AtributosFixos instance = new AtributosFixos();
         instance.setStringField(valor);
         this.populator.populate(instance);
 
@@ -301,9 +304,32 @@ public class PopulatorTest {
 
         assertEquals(h, h.getI().getH());
     }
+    
+    @Test
+    public void devePreencherOsAtributosDaClasseI() throws PopulatorException {
+    	H h = this.populator.populate(H.class);
+    	
+    	assertEquals(h, h.getI().getH());
+    	assertNotNull(h.getI().getF());
+    	assertNotNull(h.getI().getAtributo());
+    }
+    
+    @Test
+    public void devePreencherAColecaoDeObjetosDaClasseJ() throws PopulatorException {
+		J j = this.populator.populate(J.class);
+		
+		Collection<K> ks = j.getKs();
+		assertFalse(ks.isEmpty());
+		
+		for (K k : ks) {
+			assertNotNull(k.getJ());
+			assertEquals(j, k.getJ());
+		}
+	}
 
     @After
     public void tearDown() {
         this.populator = null;
     }
+    
 }

@@ -28,10 +28,6 @@ public class PatternManager {
 	public <T extends Serializable> void addPattern(Class<?> klass, T instance) {
 		this.addedMap.put(klass, instance);
 	}
-	
-	public boolean isFixedPattern(Class<?> klass) {
-		return fixedMap.containsKey(klass);
-	}
 
 	public boolean isPattern(Class<?> klass) {
 		return fixedMap.containsKey(klass) || this.addedMap.containsKey(klass);

@@ -39,5 +39,28 @@ public class ReflectionUtil {
 		
 		return false;
 	}
+
+	public static boolean contains(Class<?> klassTarget, Class<?> klass) {
+		Field[] fields = klassTarget.getDeclaredFields();
+		for (Field field : fields) {
+			if (field.getType().equals(klass)) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+
+	public static Field getField(String fieldName, Class<?> klass) {
+		try {
+			return klass.getDeclaredField(fieldName);
+		} catch (SecurityException e) {
+			e.printStackTrace();
+		} catch (NoSuchFieldException e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
 	
 }

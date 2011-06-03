@@ -5,58 +5,53 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import br.com.wave.populator.enums.ErrorEnum;
 import br.com.wave.populator.exceptions.PopulatorException;
+import br.com.wave.populator.scanners.Checker;
+import br.com.wave.populator.scanners.CollectionChecker;
+import br.com.wave.populator.scanners.FixedChecker;
+import br.com.wave.populator.scanners.NullChecker;
+import br.com.wave.populator.scanners.ObjectChecker;
 import br.com.wave.populator.utils.ReflectionUtil;
 
 public class Scanner {
-
-    private PatternManager manager;
-
-    public Scanner(PatternManager associator) {
-        this.manager = associator;
-    }
+	
+	private Checker nullChecker;
+	private Checker fixedChecker;
+	private Checker objectChecker;
+	private Checker collectionChecker;
+	
+	public Scanner() {
+		this.nullChecker = new NullChecker(this);
+		this.fixedChecker = new FixedChecker(this);
+		this.objectChecker = new ObjectChecker(this);
+		this.collectionChecker = new CollectionChecker(this);
+		
+		this.nullChecker.setSuccessor(this.fixedChecker);
+		this.fixedChecker.setSuccessor(this.objectChecker);
+		this.objectChecker.setSuccessor(this.collectionChecker);
+	}
 
     public <T> List<Field> scan(T instance) throws PopulatorException {
+    	if (instance == null) {
+    		throw new PopulatorException(ErrorEnum.NULL.getMessage());
+    	}
+    	
         List<Field> fields = new ArrayList<Field>();
 
         for (Field field : Arrays.asList(instance.getClass().getDeclaredFields())) {
             boolean isNotStatic = !ReflectionUtil.isStatic(field);
             boolean isNotTransient = !ReflectionUtil.isTransient(field);
-            boolean isNull = this.isNull(field, instance);
 
-            if (isNotStatic && isNotTransient && isNull) {
-                fields.add(field);
+            if (isNotStatic && isNotTransient) {
+            	boolean isNotFilled = !this.nullChecker.isFilled(field, instance);
+            	if (isNotFilled) {
+            		fields.add(field);
+            	}
             }
         }
 
         return fields;
     }
 
-    private <T> boolean isNull(Field field, T instance) throws PopulatorException {
-        boolean isNull = false;
-        boolean isNotFixedPattern = !this.manager.isFixedPattern(field.getType());
-        boolean hasFields = field.getType().getDeclaredFields().length > 0;
-
-        try {
-            boolean accessible = field.isAccessible();
-
-            field.setAccessible(true);
-            Object value = field.get(instance);
-            if (value == null) {
-                isNull = true;
-            } else {
-                if (isNotFixedPattern && hasFields && !ReflectionUtil.contains(field, instance.getClass())) {
-                    isNull = (this.scan(value).size() > 0);
-                }
-            }
-
-            field.setAccessible(accessible);
-        } catch (IllegalArgumentException e) {
-            throw new PopulatorException(e.getMessage());
-        } catch (IllegalAccessException e) {
-            throw new PopulatorException(e.getMessage());
-        }
-
-        return isNull;
-    }
 }

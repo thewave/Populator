@@ -23,6 +23,17 @@ public enum FixedPatternEnum {
 		this.value = value;
 	}
 	
+	public static boolean isFixedPattern(Class<?> klass) {
+		FixedPatternEnum[] enumerations = FixedPatternEnum.values();
+		for (FixedPatternEnum enumeration : enumerations) {
+			if (enumeration.getType().equals(klass)) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
 	public Class<?> getType() {
 		return type;
 	}

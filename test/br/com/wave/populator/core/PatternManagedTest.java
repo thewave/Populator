@@ -1,6 +1,5 @@
 package br.com.wave.populator.core;
 
-import br.com.wave.populator.core.PatternManager;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -10,7 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import br.com.wave.populator.enums.FixedPatternEnum;
-import br.com.wave.populator.examples.A;
+import br.com.wave.populator.examples.AtributosFixos;
 
 public class PatternManagedTest {
 	
@@ -22,23 +21,13 @@ public class PatternManagedTest {
 	}
 	
 	@Test
-	public void deveRetornarVerdadeiroSeAClasseForDefault() {
-		assertTrue(this.manager.isFixedPattern(String.class));
-	}
-	
-	@Test
-	public void deveRetornarFalsoSeAClasseNaoForDefault() {
-		assertFalse(this.manager.isFixedPattern(A.class));
-	}
-	
-	@Test
 	public void deveRetornarVerdadeiroSeAClasseEstiverAssociada() {
 		assertTrue(this.manager.isPattern(String.class));
 	}
 	
 	@Test
 	public void deveRetornarFalsoSeAClasseNaoEstiverAssociada() {
-		assertFalse(this.manager.isPattern(A.class));
+		assertFalse(this.manager.isPattern(AtributosFixos.class));
 	}
 	
 	@Test
@@ -47,25 +36,18 @@ public class PatternManagedTest {
 	}
 	
 	@Test
-	public void deveRetornarFalsoSeAClasseANaoForDefault() {
-		this.manager.addPattern(A.class, new A());
-		
-		assertFalse(this.manager.isFixedPattern(A.class));
-	}
-	
-	@Test
 	public void deveRetornarVerdadeiroSeAClasseAForAssociada() {
-		this.manager.addPattern(A.class, new A());
+		this.manager.addPattern(AtributosFixos.class, new AtributosFixos());
 		
-		assertTrue(this.manager.isPattern(A.class));
+		assertTrue(this.manager.isPattern(AtributosFixos.class));
 	}
 	
 	@Test
 	public void deveRetornarOValorDoObjeto() {
-		A a = new A();
+		AtributosFixos a = new AtributosFixos();
 		
-		this.manager.addPattern(A.class, a);
-		assertEquals(a, this.manager.getValue(A.class));
+		this.manager.addPattern(AtributosFixos.class, a);
+		assertEquals(a, this.manager.getValue(AtributosFixos.class));
 	}
 	
 	@After

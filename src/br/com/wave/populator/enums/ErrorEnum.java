@@ -2,7 +2,8 @@ package br.com.wave.populator.enums;
 
 public enum ErrorEnum {
 	
-	NOT_SERIALIZABLE("error.message.notSerializable");
+	NOT_SERIALIZABLE("error.message.notSerializable"),
+	NULL("error.message.null");
 	
 	private String message;
 
