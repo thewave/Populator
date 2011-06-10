@@ -6,6 +6,11 @@ import br.com.wave.populator.enums.ErrorEnum;
 import br.com.wave.populator.exceptions.PopulatorException;
 import br.com.wave.populator.utils.ReflectionUtil;
 
+/**
+ * @author Benedito Barbosa
+ * @author Christian Peixoto
+ * 
+ */
 public class Populator {
 
 	private Filler filler;
@@ -37,13 +42,15 @@ public class Populator {
 		}
 
 		if (!ReflectionUtil.implementz(instance.getClass(), Serializable.class)) {
-			throw new PopulatorException(ErrorEnum.NOT_SERIALIZABLE.getMessage());
+			throw new PopulatorException(
+					ErrorEnum.NOT_SERIALIZABLE.getMessage());
 		}
 
 		this.filler.fill(instance);
 	}
 
-	public <T extends Serializable> void addPattern(Class<?> klass, T instance) throws PopulatorException {
+	public <T extends Serializable> void addPattern(Class<?> klass, T instance)
+			throws PopulatorException {
 		this.populate(instance);
 
 		PatternManager.getInstance().addPattern(klass, instance);
