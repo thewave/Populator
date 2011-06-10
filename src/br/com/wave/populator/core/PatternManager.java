@@ -1,31 +1,40 @@
 package br.com.wave.populator.core;
 
-import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
 import br.com.wave.populator.enums.FixedPatternEnum;
 
 public class PatternManager {
-	
-	private static Map<Class<?>, Serializable> fixedMap;
-	
-	private Map<Class<?>, Serializable> addedMap;
-	
+
+	private static PatternManager instance;
+
+	private static Map<Class<?>, Object> fixedMap;
+
+	private Map<Class<?>, Object> addedMap;
+
 	static {
-		fixedMap = new HashMap<Class<?>, Serializable>();
-		
+		fixedMap = new HashMap<Class<?>, Object>();
+
 		FixedPatternEnum[] enumerations = FixedPatternEnum.values();
 		for (FixedPatternEnum enumeration : enumerations) {
 			fixedMap.put(enumeration.getType(), enumeration.getValue());
 		}
 	}
-	
-	public PatternManager() {
-		this.addedMap = new HashMap<Class<?>, Serializable>();
+
+	private PatternManager() {
+		this.addedMap = new HashMap<Class<?>, Object>();
 	}
-	
-	public <T extends Serializable> void addPattern(Class<?> klass, T instance) {
+
+	public static PatternManager getInstance() {
+		if (instance == null) {
+			instance = new PatternManager();
+		}
+
+		return instance;
+	}
+
+	public void addPattern(Class<?> klass, Object instance) {
 		this.addedMap.put(klass, instance);
 	}
 
@@ -33,12 +42,16 @@ public class PatternManager {
 		return fixedMap.containsKey(klass) || this.addedMap.containsKey(klass);
 	}
 
-	public Serializable getValue(Class<?> klass) {
+	public Object getValue(Class<?> klass) {
 		if (fixedMap.get(klass) != null) {
 			return fixedMap.get(klass);
 		}
-		
+
 		return this.addedMap.get(klass);
+	}
+
+	public void restore() {
+		this.addedMap = new HashMap<Class<?>, Object>();
 	}
 
 }

@@ -2,57 +2,77 @@ package br.com.wave.populator.core;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import br.com.wave.populator.core.examples.ClasseComAtributosPadrao;
 import br.com.wave.populator.enums.FixedPatternEnum;
-import br.com.wave.populator.examples.AtributosFixos;
 
 public class PatternManagedTest {
-	
+
 	private PatternManager manager;
-	
+
 	@Before
 	public void setUp() {
-		this.manager = new PatternManager();
+		this.manager = PatternManager.getInstance();
 	}
-	
+
 	@Test
-	public void deveRetornarVerdadeiroSeAClasseEstiverAssociada() {
+	public void deveAdicionarUmaClasseComoPadrao() {
+		ClasseComAtributosPadrao instance = new ClasseComAtributosPadrao();
+
+		this.manager.addPattern(ClasseComAtributosPadrao.class, instance);
+
+		assertTrue(this.manager.isPattern(ClasseComAtributosPadrao.class));
+	}
+
+	@Test
+	public void deveRetornarVerdadeiroSeAClasseForPadrao() {
 		assertTrue(this.manager.isPattern(String.class));
 	}
-	
+
 	@Test
-	public void deveRetornarFalsoSeAClasseNaoEstiverAssociada() {
-		assertFalse(this.manager.isPattern(AtributosFixos.class));
+	public void deveRetornarFalsoSeAClasseNaoForPadrao() {
+		assertFalse(this.manager.isPattern(ClasseComAtributosPadrao.class));
 	}
-	
+
 	@Test
-	public void deveRetornarOValorPadrao() {
+	public void deveRetornarOValorPadraoFixo() {
 		assertEquals(FixedPatternEnum.STRING.getValue(), this.manager.getValue(String.class));
 	}
-	
+
 	@Test
-	public void deveRetornarVerdadeiroSeAClasseAForAssociada() {
-		this.manager.addPattern(AtributosFixos.class, new AtributosFixos());
-		
-		assertTrue(this.manager.isPattern(AtributosFixos.class));
+	public void deveRetornarOValorPadraoDeUmaClasseAdicionada() {
+		ClasseComAtributosPadrao instance = new ClasseComAtributosPadrao();
+
+		this.manager.addPattern(ClasseComAtributosPadrao.class, instance);
+
+		assertEquals(instance, this.manager.getValue(ClasseComAtributosPadrao.class));
 	}
-	
+
 	@Test
-	public void deveRetornarOValorDoObjeto() {
-		AtributosFixos a = new AtributosFixos();
-		
-		this.manager.addPattern(AtributosFixos.class, a);
-		assertEquals(a, this.manager.getValue(AtributosFixos.class));
+	public void deveRetornarNuloSeNaoHouverPadrao() {
+		assertNull(this.manager.getValue(ClasseComAtributosPadrao.class));
 	}
-	
+
+	@Test
+	public void deveExcluirOsValoresPadroesAdicionados() {
+		ClasseComAtributosPadrao instance = new ClasseComAtributosPadrao();
+
+		this.manager.addPattern(ClasseComAtributosPadrao.class, instance);
+
+		this.manager.restore();
+
+		assertFalse(this.manager.isPattern(ClasseComAtributosPadrao.class));
+	}
+
 	@After
 	public void tearDown() {
-		this.manager = null;
+		this.manager.restore();
 	}
 
 }
