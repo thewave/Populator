@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import br.com.wave.populator.enums.ErrorEnum;
 import br.com.wave.populator.exceptions.PopulatorException;
-import br.com.wave.populator.utils.ReflectionUtil;
+import br.com.wave.utils.reflection.ReflectionUtil;
 
 /**
  * @author Benedito Barbosa

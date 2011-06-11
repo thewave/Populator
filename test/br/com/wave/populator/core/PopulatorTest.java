@@ -8,10 +8,10 @@ import org.junit.Before;
 import org.junit.Test;
 
 import br.com.wave.populator.core.examples.ClasseComAtributosPadrao;
+import br.com.wave.populator.core.examples.ClasseNaoSerializavel;
 import br.com.wave.populator.enums.ErrorEnum;
 import br.com.wave.populator.enums.FixedPatternEnum;
 import br.com.wave.populator.exceptions.PopulatorException;
-import br.com.wave.populator.utils.examples.NotSerializable;
 
 public class PopulatorTest {
 
@@ -38,13 +38,13 @@ public class PopulatorTest {
 
 	@Test(expected = PopulatorException.class)
 	public void deveLancarExcecaoSeAInstanciaNaoForSerializavelException() throws PopulatorException {
-		this.populator.populate(NotSerializable.class);
+		this.populator.populate(ClasseNaoSerializavel.class);
 	}
 
 	@Test
 	public void deveLancarExcecaoSeAInstanciaNaoForSerializavel() {
 		try {
-			this.populator.populate(NotSerializable.class);
+			this.populator.populate(ClasseNaoSerializavel.class);
 		} catch (PopulatorException e) {
 			assertEquals(ErrorEnum.NOT_SERIALIZABLE.getMessage(), e.getMessage());
 		}

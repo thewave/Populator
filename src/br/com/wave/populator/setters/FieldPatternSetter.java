@@ -6,7 +6,7 @@ import java.util.List;
 import br.com.wave.populator.core.Filler;
 import br.com.wave.populator.enums.ErrorEnum;
 import br.com.wave.populator.exceptions.PopulatorException;
-import br.com.wave.populator.utils.ReflectionUtil;
+import br.com.wave.utils.reflection.ReflectionUtil;
 
 public class FieldPatternSetter extends Setter {
 
