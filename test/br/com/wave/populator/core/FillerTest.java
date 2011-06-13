@@ -499,58 +499,6 @@ public class FillerTest {
 			}
 		}
 	}
-//	TODO Revisar os testes de trilha.
-//	@Test
-//	public void deveRegistrarUmObjetoNaTrilha() throws PopulatorException {
-//		ClasseComAtributosPadrao instance = new ClasseComAtributosPadrao();
-//
-//		this.filler.fill(instance);
-//
-//		List<Object> instances = this.filler.getTrail().getInstances();
-//		assertEquals(1, instances.size());
-//		assertEquals(instance, instances.get(0));
-//	}
-//
-//	@Test
-//	public void deveRegistrarDoisObjetosNaTrilha() throws PopulatorException {
-//		ClasseComAtributosPadrao objetoComAtributosPadrao = new ClasseComAtributosPadrao();
-//
-//		ClasseComAtributoNaoPadrao instance = new ClasseComAtributoNaoPadrao();
-//		instance.setClasseComAtributosPadrao(objetoComAtributosPadrao);
-//
-//		this.filler.fill(instance);
-//
-//		List<Object> instances = this.filler.getTrail().getInstances();
-//		assertEquals(2, instances.size());
-//		assertEquals(instance, instances.get(0));
-//		assertEquals(objetoComAtributosPadrao, instances.get(1));
-//	}
-//
-//	@Test
-//	public void deveRegistrarUmObjetoNaTrilhaMesmoQueUmSejaColecao() throws PopulatorException {
-//		ClasseComColecaoDeAtributoPadrao instance = new ClasseComColecaoDeAtributoPadrao();
-//
-//		this.filler.fill(instance);
-//
-//		List<Object> instances = this.filler.getTrail().getInstances();
-//		assertEquals(1, instances.size());
-//		assertEquals(instance, instances.get(0));
-//	}
-//	
-//	@Test
-//	public void deveRegistrarDoisObjetosNaTrilhaMesmoQueUmSejaColecao() throws PopulatorException {
-//		ClasseComAtributoNaoPadrao objetoComAtributoNaoPadrao = new ClasseComAtributoNaoPadrao();
-//		
-//		ClasseComColecaoDeAtributoNaoPadrao instance = new ClasseComColecaoDeAtributoNaoPadrao();
-//		instance.setColecao(Arrays.asList(objetoComAtributoNaoPadrao));
-//		
-//		this.filler.fill(instance);
-//		
-//		List<Object> instances = this.filler.getTrail().getInstances();
-//		assertEquals(2, instances.size());
-//		assertEquals(instance, instances.get(0));
-//		assertEquals(objetoComAtributoNaoPadrao, instances.get(1));
-//	}
 
 	@After
 	public void tearDown() {

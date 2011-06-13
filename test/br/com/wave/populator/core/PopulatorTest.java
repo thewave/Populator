@@ -72,7 +72,7 @@ public class PopulatorTest {
 		assertTrue(PatternManager.getInstance().isPattern(ClasseComAtributosPadrao.class));
 		assertEquals(instance, PatternManager.getInstance().getValue(ClasseComAtributosPadrao.class));
 	}
-
+//	TODO Implementar testes com o Repository
 	@After
 	public void tearDown() {
 		this.populator = null;

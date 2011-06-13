@@ -16,8 +16,6 @@ public class Filler {
 	private Setter collectionSetter;
 
 	private Setter otherSetter;
-	
-	private Trail trail;
 
 	public Filler() {
 		this.patternSetter = new PatternSetter(this);
@@ -28,18 +26,10 @@ public class Filler {
 		this.patternSetter.setSuccessor(this.fieldPatternSetter);
 		this.fieldPatternSetter.setSuccessor(this.collectionSetter);
 		this.collectionSetter.setSuccessor(this.otherSetter);
-		
-		this.trail = new Trail();
 	}
 
 	public <T> void fill(T instance) throws PopulatorException {
-		this.trail.add(instance);
-		
 		this.patternSetter.set(instance);
-	}
-
-	public Trail getTrail() {
-		return trail;
 	}
 
 }
