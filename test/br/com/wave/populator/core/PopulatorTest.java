@@ -1,14 +1,24 @@
 package br.com.wave.populator.core;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertNotNull;
+
+import java.util.Collection;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import br.com.wave.populator.core.examples.ClasseComAtributosPadrao;
 import br.com.wave.populator.core.examples.ClasseNaoSerializavel;
+import br.com.wave.populator.entities.EntidadeBasic;
+import br.com.wave.populator.entities.EntidadeManyToMany;
+import br.com.wave.populator.entities.EntidadeManyToManyInverse;
+import br.com.wave.populator.entities.EntidadeOneToMany;
+import br.com.wave.populator.entities.EntidadeOneToManyBidirecional;
+import br.com.wave.populator.entities.EntidadeOneToManyBidirecionalInverse;
+import br.com.wave.populator.entities.EntidadeOneToOne;
+import br.com.wave.populator.entities.EntidadeOneToOneBidirecional;
+import br.com.wave.populator.entities.EntidadeOneToOneBidirecionalInverse;
 import br.com.wave.populator.enums.ErrorEnum;
 import br.com.wave.populator.enums.FixedPatternEnum;
 import br.com.wave.populator.exceptions.PopulatorException;
@@ -19,7 +29,7 @@ public class PopulatorTest {
 
 	@Before
 	public void setUp() {
-		this.populator = new Populator();
+		this.populator = PopulatorFactory.createPopulator();
 	}
 
 	@Test(expected = PopulatorException.class)
@@ -51,30 +61,111 @@ public class PopulatorTest {
 	}
 
 	@Test
-	public void deveDelegarAoFillerAResponsabilidadeDePreencherUmaInstancia() throws PopulatorException {
-		ClasseComAtributosPadrao instance = this.populator.populate(ClasseComAtributosPadrao.class);
+	public void devePersistirUmaEntidadeBasic() throws PopulatorException {
+		EntidadeBasic instance = this.populator.populate(EntidadeBasic.class);
 
-		assertEquals(FixedPatternEnum.STRING.getValue(), instance.getStringField());
-		assertEquals(FixedPatternEnum.INTEGER.getValue(), instance.getIntegerField());
-		assertEquals(FixedPatternEnum.LONG.getValue(), instance.getLongField());
-		assertEquals(FixedPatternEnum.BIG_DECIMAL.getValue(), instance.getBigDecimalField());
-		assertEquals(FixedPatternEnum.BOOLEAN.getValue(), instance.getBooleanField());
-		assertEquals(FixedPatternEnum.CALENDAR.getValue(), instance.getCalendarField());
-		assertEquals(FixedPatternEnum.BYTE_ARRAY.getValue(), instance.getByteField());
+		assertNotNull(instance.getId());
+		assertNotNull(instance.getVersion());
 	}
 
 	@Test
-	public void deveDelegarAoPatternManagerAResponsabilidadeDeGerenciarOsPadroesAdicionados() throws PopulatorException {
-		ClasseComAtributosPadrao instance = new ClasseComAtributosPadrao();
+	public void devePersistirUmaEntidadeOneToOne() throws PopulatorException {
+		EntidadeOneToOne instance = this.populator.populate(EntidadeOneToOne.class);
 
-		this.populator.addPattern(ClasseComAtributosPadrao.class, instance);
+		assertNotNull(instance.getId());
+		assertNotNull(instance.getVersion());
+		assertEquals(FixedPatternEnum.STRING.getValue(), instance.getStringField());
 
-		assertTrue(PatternManager.getInstance().isPattern(ClasseComAtributosPadrao.class));
-		assertEquals(instance, PatternManager.getInstance().getValue(ClasseComAtributosPadrao.class));
+		assertNotNull(instance.getEntidadeBasic().getId());
+		assertNotNull(instance.getEntidadeBasic().getVersion());
 	}
-//	TODO Implementar testes com o Repository
+
+	@Test
+	public void devePersistirUmaEntidadeOneToMany() throws PopulatorException {
+		EntidadeOneToMany instance = this.populator.populate(EntidadeOneToMany.class);
+
+		assertNotNull(instance.getId());
+		assertNotNull(instance.getVersion());
+		assertEquals(FixedPatternEnum.STRING.getValue(), instance.getStringField());
+
+		Collection<EntidadeOneToOne> itens = instance.getColecao();
+		for (EntidadeOneToOne item : itens) {
+			assertNotNull(item.getId());
+			assertNotNull(item.getVersion());
+		}
+	}
+
+	@Test
+	public void devePersistirUmaEntidadeOneToOneBidirecional() throws PopulatorException {
+		EntidadeOneToOneBidirecional instance = this.populator.populate(EntidadeOneToOneBidirecional.class);
+
+		assertNotNull(instance.getId());
+		assertNotNull(instance.getVersion());
+		assertEquals(FixedPatternEnum.STRING.getValue(), instance.getStringField());
+
+		EntidadeOneToOneBidirecionalInverse objetoOneToOneBidirecionalInverse = instance.getEntidadeOneToOneBidirecionalInverse();
+		assertNotNull(objetoOneToOneBidirecionalInverse.getId());
+		assertNotNull(objetoOneToOneBidirecionalInverse.getVersion());
+		assertNotNull(objetoOneToOneBidirecionalInverse.getEntidadeOneToOneBidirecional());
+	}
+
+	@Test
+	public void devePersistirUmaEntidadeOneToManyBidirecional() throws PopulatorException {
+		EntidadeOneToManyBidirecional instance = this.populator.populate(EntidadeOneToManyBidirecional.class);
+
+		assertNotNull(instance.getId());
+		assertNotNull(instance.getVersion());
+		assertEquals(FixedPatternEnum.STRING.getValue(), instance.getStringField());
+
+		Collection<EntidadeOneToManyBidirecionalInverse> itens = instance.getColecao();
+		for (EntidadeOneToManyBidirecionalInverse item : itens) {
+			assertNotNull(item.getId());
+			assertNotNull(item.getVersion());
+			assertNotNull(item.getEntidadeOneToManyBidirecional());
+		}
+	}
+
+	@Test
+	public void devePersistirUmaEntidadeManyToMany() throws PopulatorException {
+		EntidadeManyToMany instance = this.populator.populate(EntidadeManyToMany.class);
+
+		assertNotNull(instance.getId());
+		assertNotNull(instance.getVersion());
+		assertEquals(FixedPatternEnum.STRING.getValue(), instance.getStringField());
+
+		Collection<EntidadeManyToManyInverse> itens = instance.getColecao();
+		for (EntidadeManyToManyInverse item : itens) {
+			assertNotNull(item.getId());
+			assertNotNull(item.getVersion());
+
+			Collection<EntidadeManyToMany> elementos = item.getColecao();
+			for (EntidadeManyToMany elemento : elementos) {
+				assertEquals(instance, elemento);
+			}
+		}
+	}
+
+	@Test
+	public void devePersistirUmaEntidadeUsandoPadraoAdicionado() throws PopulatorException {
+		EntidadeBasic basic = new EntidadeBasic();
+		basic.setStringField("Teste");
+		basic.setLongField(1000L);
+
+		this.populator.addPattern(EntidadeBasic.class, basic);
+
+		EntidadeOneToOne instance = this.populator.populate(EntidadeOneToOne.class);
+		assertNotNull(instance.getId());
+		assertNotNull(instance.getVersion());
+
+		assertEquals(basic.getStringField(), instance.getEntidadeBasic().getStringField());
+		assertEquals(basic.getLongField(), instance.getEntidadeBasic().getLongField());
+	}
+
 	@After
-	public void tearDown() {
+	public void tearDown() throws PopulatorException {
+		this.populator.clear();
+		PatternManager.getInstance().restore();
+
 		this.populator = null;
 	}
 

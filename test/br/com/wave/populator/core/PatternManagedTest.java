@@ -27,17 +27,17 @@ public class PatternManagedTest {
 
 		this.manager.addPattern(ClasseComAtributosPadrao.class, instance);
 
-		assertTrue(this.manager.isPattern(ClasseComAtributosPadrao.class));
+		assertTrue(this.manager.hasPattern(ClasseComAtributosPadrao.class));
 	}
 
 	@Test
 	public void deveRetornarVerdadeiroSeAClasseForPadrao() {
-		assertTrue(this.manager.isPattern(String.class));
+		assertTrue(this.manager.hasPattern(String.class));
 	}
 
 	@Test
 	public void deveRetornarFalsoSeAClasseNaoForPadrao() {
-		assertFalse(this.manager.isPattern(ClasseComAtributosPadrao.class));
+		assertFalse(this.manager.hasPattern(ClasseComAtributosPadrao.class));
 	}
 
 	@Test
@@ -67,7 +67,7 @@ public class PatternManagedTest {
 
 		this.manager.restore();
 
-		assertFalse(this.manager.isPattern(ClasseComAtributosPadrao.class));
+		assertFalse(this.manager.hasPattern(ClasseComAtributosPadrao.class));
 	}
 
 	@After

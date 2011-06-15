@@ -20,7 +20,7 @@ public class CollectionSetter extends Setter {
 		List<Field> fields = ReflectionUtil.getPersistentFields(instance.getClass());
 		for (Field field : fields) {
 			Class<?> klass = field.getType();
-			boolean isNotPattern = !this.getManager().isPattern(klass);
+			boolean isNotPattern = !this.getManager().hasPattern(klass);
 			boolean isCollection = ReflectionUtil.isCollection(klass);
 
 			if (isNotPattern && isCollection) {
@@ -44,7 +44,7 @@ public class CollectionSetter extends Setter {
 
 		try {
 			Object value = null;
-			if (this.getManager().isPattern(typeOfElements)) {
+			if (this.getManager().hasPattern(typeOfElements)) {
 				value = this.getManager().getValue(typeOfElements);
 			} else {
 				value = typeOfElements.newInstance();

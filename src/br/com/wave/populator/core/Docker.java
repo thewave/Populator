@@ -5,8 +5,20 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import br.com.wave.repository.core.Repository;
+import javax.inject.Inject;
 
+import br.com.wave.populator.exceptions.PopulatorException;
+import br.com.wave.repository.annotations.Transactional;
+import br.com.wave.repository.core.Repository;
+import br.com.wave.repository.exceptions.RepositoryException;
+
+/**
+ * Responsavel por armazenar instancias em um repositorio.
+ * 
+ * @author Benedito Barbosa
+ * @author Christian Peixoto
+ * 
+ */
 public class Docker {
 
 	private PatternManager manager;
@@ -15,34 +27,53 @@ public class Docker {
 
 	private List<Object> instances;
 
-	public Docker() {
+	@Inject
+	public Docker(Repository repository) {
 		this.manager = PatternManager.getInstance();
-		this.repository = new Repository();
+		this.repository = repository;
 		this.instances = new ArrayList<Object>();
 	}
 
-	// TODO Colocar @Transaction
-	public void addInstances() {
+	/**
+	 * Armazena instancias em um repositorio.
+	 * 
+	 * @throws PopulatorException
+	 */
+	@Transactional
+	public void addInstances() throws PopulatorException {
 		this.loadInstances();
 		Collections.reverse(this.instances);
 
-		for (Object instance : this.instances) {
-			this.repository.persist(instance);
+		try {
+			for (Object instance : this.instances) {
+				this.repository.persist(instance);
+			}
+		} catch (RepositoryException e) {
+			throw new PopulatorException(e.getMessage());
 		}
 	}
 
-	// TODO Colocar @Transaction
-	public void removeInstances() {
+	/**
+	 * Retira instancias armazenadas em um repositorio.
+	 * 
+	 * @throws PopulatorException
+	 */
+	@Transactional
+	public void removeInstances() throws PopulatorException {
 		this.loadInstances();
 
-		for (Object instance : this.instances) {
-			this.repository.remove(instance);
+		try {
+			for (Object instance : this.instances) {
+				this.repository.remove(instance);
+			}
+		} catch (RepositoryException e) {
+			throw new PopulatorException(e.getMessage());
 		}
 	}
 
 	private void loadInstances() {
 		this.instances.clear();
-		
+
 		Map<Class<?>, Object> addedPatterns = this.manager.getAddedPatterns();
 		for (Class<?> key : addedPatterns.keySet()) {
 			this.instances.add(addedPatterns.get(key));

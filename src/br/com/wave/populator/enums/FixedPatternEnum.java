@@ -3,6 +3,13 @@ package br.com.wave.populator.enums;
 import java.math.BigDecimal;
 import java.util.Calendar;
 
+/**
+ * Padrao definido para determinadas classes.
+ * 
+ * @author Benedito Barbosa
+ * @author Christian Peixoto
+ * 
+ */
 public enum FixedPatternEnum {
 
 	STRING(String.class, String.valueOf("")),

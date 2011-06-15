@@ -13,7 +13,7 @@ public class PatternSetter extends Setter {
 	@Override
 	public <T> void set(T instance) throws PopulatorException {
 		Class<?> klass = instance.getClass();
-		if (this.getManager().isPattern(klass)) {
+		if (this.getManager().hasPattern(klass)) {
 			Object value = this.getManager().getValue(klass);
 
 			ReflectionUtil.copy(value, instance);

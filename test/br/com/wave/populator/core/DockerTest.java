@@ -7,10 +7,13 @@ import java.util.List;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 import br.com.wave.populator.core.examples.ClasseComAtributoNaoPadrao;
 import br.com.wave.populator.core.examples.ClasseComAtributosPadrao;
 import br.com.wave.populator.core.examples.ClasseComColecaoDeAtributoNaoPadrao;
+import br.com.wave.populator.exceptions.PopulatorException;
+import br.com.wave.repository.core.Repository;
 
 public class DockerTest {
 
@@ -37,11 +40,12 @@ public class DockerTest {
 		this.manager.addPattern(ClasseComAtributoNaoPadrao.class, this.objetoComAtributoNaoPadrao);
 		this.manager.addPattern(ClasseComAtributosPadrao.class, this.objetoComAtributosPadrao);
 
-		this.docker = new Docker();
+		Repository repository = Mockito.mock(Repository.class);
+		this.docker = new Docker(repository);
 	}
 
 	@Test
-	public void deveArmazenarAsInstanciasNaOrdemInversaEmQueForamAdicionadasComoPadrao() {
+	public void deveArmazenarAsInstanciasNaOrdemInversaEmQueForamAdicionadasComoPadrao() throws PopulatorException {
 		this.docker.addInstances();
 
 		List<Object> instances = this.docker.getInstances();
@@ -53,7 +57,7 @@ public class DockerTest {
 	}
 
 	@Test
-	public void deveRetirarAsInstanciasNaMesmaOrdemEmQueForamAdicionadasComoPadrao() {
+	public void deveRetirarAsInstanciasNaMesmaOrdemEmQueForamAdicionadasComoPadrao() throws PopulatorException {
 		this.docker.removeInstances();
 
 		List<Object> instances = this.docker.getInstances();

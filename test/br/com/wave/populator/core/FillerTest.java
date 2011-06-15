@@ -3,6 +3,7 @@ package br.com.wave.populator.core;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -25,6 +26,7 @@ import br.com.wave.populator.core.examples.ClasseComColecaoDeAtributoNaoPadraoBi
 import br.com.wave.populator.core.examples.ClasseComColecaoDeAtributoNaoPadraoComColecaoBidirecional;
 import br.com.wave.populator.core.examples.ClasseComColecaoDeAtributoPadrao;
 import br.com.wave.populator.core.examples.ClasseComColecaoDeClasseComColecaoDeAtributoNaoPadraoComColecaoBidirecional;
+import br.com.wave.populator.core.examples.ClasseComIdEVersion;
 import br.com.wave.populator.core.examples.ClasseComMapa;
 import br.com.wave.populator.core.examples.ClasseSemAtributos;
 import br.com.wave.populator.enums.ErrorEnum;
@@ -498,6 +500,17 @@ public class FillerTest {
 				assertEquals(instance, elemento);
 			}
 		}
+	}
+
+	@Test
+	public void naoDevePreencherAtributosIdEVersion() throws PopulatorException {
+		ClasseComIdEVersion instance = new ClasseComIdEVersion();
+
+		this.filler.fill(instance);
+
+		assertNull(instance.getId());
+		assertNull(instance.getVersion());
+		assertEquals(FixedPatternEnum.STRING.getValue(), instance.getAtributo());
 	}
 
 	@After

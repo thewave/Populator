@@ -19,7 +19,7 @@ public class OtherSetter extends Setter {
 		List<Field> fields = ReflectionUtil.getPersistentFields(instance.getClass());
 		for (Field field : fields) {
 			Class<?> klass = field.getType();
-			boolean isNotPattern = !this.getManager().isPattern(klass);
+			boolean isNotPattern = !this.getManager().hasPattern(klass);
 			boolean isNotCollection = !ReflectionUtil.isCollection(klass);
 
 			if (isNotPattern && isNotCollection) {

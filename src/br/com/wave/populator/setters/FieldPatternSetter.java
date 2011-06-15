@@ -5,6 +5,7 @@ import java.util.List;
 
 import br.com.wave.populator.core.Filler;
 import br.com.wave.populator.enums.ErrorEnum;
+import br.com.wave.populator.enums.FieldEnum;
 import br.com.wave.populator.exceptions.PopulatorException;
 import br.com.wave.utils.reflection.ReflectionUtil;
 
@@ -23,15 +24,24 @@ public class FieldPatternSetter extends Setter {
 
 		for (Field field : fields) {
 			Class<?> klass = field.getType();
-			boolean isPattern = this.getManager().isPattern(klass);
+			boolean isPattern = this.getManager().hasPattern(klass);
 			boolean isNull = ReflectionUtil.get(field, instance) == null;
 
-			if (isPattern && isNull) {
+			if (isPattern && isNull && isFillable(field)) {
 				ReflectionUtil.set(this.getManager().getValue(klass), field, instance);
 			}
 		}
 
 		this.getSuccessor().set(instance);
+	}
+
+	private boolean isFillable(Field field) {
+		String fieldName = field.getName();
+		if (fieldName.equals(FieldEnum.ID.getValue()) || fieldName.equals(FieldEnum.VERSION.getValue())) {
+			return false;
+		}
+
+		return true;
 	}
 
 }
