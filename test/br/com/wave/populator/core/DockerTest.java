@@ -13,7 +13,7 @@ import br.com.wave.populator.core.examples.ClasseComAtributoNaoPadrao;
 import br.com.wave.populator.core.examples.ClasseComAtributosPadrao;
 import br.com.wave.populator.core.examples.ClasseComColecaoDeAtributoNaoPadrao;
 import br.com.wave.populator.exceptions.PopulatorException;
-import br.com.wave.repository.core.Repository;
+import br.com.wave.repository.core.Keeper;
 
 public class DockerTest {
 
@@ -40,7 +40,7 @@ public class DockerTest {
 		this.manager.addPattern(ClasseComAtributoNaoPadrao.class, this.objetoComAtributoNaoPadrao);
 		this.manager.addPattern(ClasseComAtributosPadrao.class, this.objetoComAtributosPadrao);
 
-		Repository repository = Mockito.mock(Repository.class);
+		Keeper repository = Mockito.mock(Keeper.class);
 		this.docker = new Docker(repository);
 	}
 

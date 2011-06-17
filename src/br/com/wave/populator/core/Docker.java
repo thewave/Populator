@@ -9,7 +9,7 @@ import javax.inject.Inject;
 
 import br.com.wave.populator.exceptions.PopulatorException;
 import br.com.wave.repository.annotations.Transactional;
-import br.com.wave.repository.core.Repository;
+import br.com.wave.repository.core.Keeper;
 import br.com.wave.repository.exceptions.RepositoryException;
 
 /**
@@ -23,14 +23,14 @@ public class Docker {
 
 	private PatternManager manager;
 
-	private Repository repository;
+	private Keeper keeper;
 
 	private List<Object> instances;
 
 	@Inject
-	public Docker(Repository repository) {
+	public Docker(Keeper keeper) {
 		this.manager = PatternManager.getInstance();
-		this.repository = repository;
+		this.keeper = keeper;
 		this.instances = new ArrayList<Object>();
 	}
 
@@ -46,7 +46,7 @@ public class Docker {
 
 		try {
 			for (Object instance : this.instances) {
-				this.repository.persist(instance);
+				this.keeper.persist(instance);
 			}
 		} catch (RepositoryException e) {
 			throw new PopulatorException(e.getMessage());
@@ -64,7 +64,7 @@ public class Docker {
 
 		try {
 			for (Object instance : this.instances) {
-				this.repository.remove(instance);
+				this.keeper.remove(instance);
 			}
 		} catch (RepositoryException e) {
 			throw new PopulatorException(e.getMessage());
