@@ -29,7 +29,7 @@ public class OtherSetter extends Setter {
 						value = klass.newInstance();
 						ReflectionUtil.set(value, field, instance);
 					} catch (InstantiationException e) {
-						throw new PopulatorException(ErrorEnum.TYPE_UNEXPECTED.getMessage());
+						throw new PopulatorException(ErrorEnum.TYPE_UNEXPECTED, field.getName(), instance.getClass().getName());
 					} catch (IllegalAccessException e) {
 						throw new PopulatorException(e.getMessage());
 					}

@@ -36,7 +36,7 @@ public class Populator {
 	 */
 	public <T> T populate(Class<T> klass) throws PopulatorException {
 		if (klass == null) {
-			throw new PopulatorException(ErrorEnum.NULL.getMessage());
+			throw new PopulatorException(ErrorEnum.NULL);
 		}
 
 		try {
@@ -60,11 +60,11 @@ public class Populator {
 	 */
 	public <T> void populate(T instance) throws PopulatorException {
 		if (instance == null) {
-			throw new PopulatorException(ErrorEnum.NULL.getMessage());
+			throw new PopulatorException(ErrorEnum.NULL);
 		}
 
 		if (!ReflectionUtil.implementz(instance.getClass(), Serializable.class)) {
-			throw new PopulatorException(ErrorEnum.NOT_SERIALIZABLE.getMessage());
+			throw new PopulatorException(ErrorEnum.NOT_SERIALIZABLE, instance.getClass().getName());
 		}
 
 		this.filler.fill(instance);

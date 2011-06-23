@@ -1,5 +1,9 @@
 package br.com.wave.populator.enums;
 
+import java.text.MessageFormat;
+import java.util.Locale;
+import java.util.ResourceBundle;
+
 public enum ErrorEnum {
 
 	NULL("error.message.null"),
@@ -7,14 +11,18 @@ public enum ErrorEnum {
 	NOT_PERSISTENT_FIELDS("error.message.notPersistentFields"),
 	TYPE_UNEXPECTED("error.message.typeUnexpected");
 
-	private String message;
+	private String key;
 
-	private ErrorEnum(String message) {
-		this.message = message;
+	private ErrorEnum(String key) {
+		this.key = key;
 	}
+	
+	public String getMessage(Object... params) {
+		ResourceBundle bundle = ResourceBundle.getBundle("messages", Locale.getDefault());
 
-	public String getMessage() {
-		return message;
+		String value = bundle.getString(this.key);
+		
+		return new MessageFormat(value).format(params);
 	}
 
 }

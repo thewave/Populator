@@ -10,6 +10,7 @@ import javax.inject.Inject;
 import br.com.wave.populator.exceptions.PopulatorException;
 import br.com.wave.repository.annotations.Transactional;
 import br.com.wave.repository.core.Keeper;
+import br.com.wave.repository.enums.RemoveEnum;
 import br.com.wave.repository.exceptions.RepositoryException;
 
 /**
@@ -64,7 +65,7 @@ public class Docker {
 
 		try {
 			for (Object instance : this.instances) {
-				this.keeper.remove(instance);
+				this.keeper.remove(instance, RemoveEnum.PHYSICAL);
 			}
 		} catch (RepositoryException e) {
 			throw new PopulatorException(e.getMessage());

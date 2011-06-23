@@ -1,5 +1,82 @@
+****
+TODO
+definir persistence unit para o repositorioJPA
+ignore writing in views
+****
+
 Populator
 ---------
-
 This project loads a repository with objects from your business classes. It is a complete rework from the idea of HibernateMock (thanks to Celio Vasconcelos).
- 
+
+Populator was designed to set all fields from the bussines class, except the ones which has information.
+
+Usage
+-----
+1) Define a Persistence Unit (persistence.xml)
+	see Entities Definition
+
+2) Create a Populator
+	Populator p = PopulatorFactory.createPopulator();
+
+3) (optional) Define patterns
+	p.addPattern(String.class, "This is a pattern to all String classes");
+
+4) Populate the database
+	p.populate(BasicEntity.class);
+
+5) Cleaning the database
+	p.clear();
+
+Entities Definition
+-------- ----------
+Populator uses the RepositoryJPA. So, it requires your business classes to fulfill some requirements.
+
+1) It must have an @Entity.
+2) It must implements Serializable.
+3) It must have a Long id field, annotated with @Id.
+4) It must have an Integer version field, annotated with @Version.
+5) It must have a Boolean active field (for logical removal).
+6) It must have a public constructor without arguments (or none, if there aren't any other constructors).
+7) It must have an Equals and a HashCode methods.
+
+There is an example:
+
+@Entity
+public class BasicEntity implements Serializable {
+	
+	@Id
+	private Long id;
+	
+	@Version
+	private Integer version;
+	
+	private Boolean active;
+	
+	public Entidade(){
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		return super.equals(obj);
+	}
+
+	@Override
+	public int hashCode() {
+		return super.hashCode();
+	}
+	
+}
+
+
+Development Environment
+----------- -----------
+Eclipse
+IvyDE
+JPA (Hibernate)
+CDI (Weld)
+RepositoryJPA
+
+JUnit
+Mockito
+HSQLDB
+

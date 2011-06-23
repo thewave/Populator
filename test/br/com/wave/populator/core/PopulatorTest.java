@@ -56,7 +56,7 @@ public class PopulatorTest {
 		try {
 			this.populator.populate(ClasseNaoSerializavel.class);
 		} catch (PopulatorException e) {
-			assertEquals(ErrorEnum.NOT_SERIALIZABLE.getMessage(), e.getMessage());
+			assertEquals(ErrorEnum.NOT_SERIALIZABLE.getMessage(ClasseNaoSerializavel.class.getName()), e.getMessage());
 		}
 	}
 

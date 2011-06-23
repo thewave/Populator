@@ -19,7 +19,7 @@ public class FieldPatternSetter extends Setter {
 	public <T> void set(T instance) throws PopulatorException {
 		List<Field> fields = ReflectionUtil.getPersistentFields(instance.getClass());
 		if (fields.isEmpty()) {
-			throw new PopulatorException(ErrorEnum.NOT_PERSISTENT_FIELDS.getMessage());
+			throw new PopulatorException(ErrorEnum.NOT_PERSISTENT_FIELDS, instance.getClass().getName());
 		}
 
 		for (Field field : fields) {

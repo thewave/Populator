@@ -78,7 +78,7 @@ public class FillerTest {
 		try {
 			this.filler.fill(instance);
 		} catch (PopulatorException e) {
-			assertEquals(ErrorEnum.NOT_PERSISTENT_FIELDS.getMessage(), e.getMessage());
+			assertEquals(ErrorEnum.NOT_PERSISTENT_FIELDS.getMessage(instance.getClass().getName()), e.getMessage());
 		}
 	}
 
@@ -322,7 +322,7 @@ public class FillerTest {
 		try {
 			this.filler.fill(instance);
 		} catch (PopulatorException e) {
-			assertEquals(ErrorEnum.TYPE_UNEXPECTED.getMessage(), e.getMessage());
+			assertEquals(ErrorEnum.TYPE_UNEXPECTED.getMessage("mapa", instance.getClass().getName()), e.getMessage());
 		}
 	}
 

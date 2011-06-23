@@ -4,8 +4,8 @@
   <resolvers> 
     <ibiblio name="jboss" m2compatible="true" usepoms="true" root="http://repository.jboss.org/nexus/content/groups/public-jboss/" pattern="[organisation]/[module]/[revision]/[artifact]-[revision](-[classifier]).[ext]"/> 
     <chain name="seam" dual="true"> 
-      <resolver ref="jboss"/> 
       <resolver ref="public"/> 
+      <resolver ref="jboss"/> 
     </chain> 
   </resolvers> 
 </ivysettings> 
