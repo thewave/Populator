@@ -1,9 +1,3 @@
-****
-TODO
-definir persistence unit para o repositorioJPA
-ignore writing in views
-****
-
 Populator
 ---------
 This project loads a repository with objects from your business classes. It is a complete rework from the idea of HibernateMock (thanks to Celio Vasconcelos).
