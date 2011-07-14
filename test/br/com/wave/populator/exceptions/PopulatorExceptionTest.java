@@ -13,7 +13,7 @@ public class PopulatorExceptionTest {
 		try {
 			throw new PopulatorException(ErrorEnum.NULL);
 		} catch (PopulatorException e) {
-			assertEquals(ErrorEnum.NULL.getMessage(),e.getMessage());
+			assertEquals(ErrorEnum.NULL.getMessage(), e.getMessage());
 		}
 	}
 
@@ -23,7 +23,7 @@ public class PopulatorExceptionTest {
 		try {
 			throw new PopulatorException(message);
 		} catch (PopulatorException e) {
-			assertEquals(message,e.getMessage());
+			assertEquals(message, e.getMessage());
 		}
 	}
 

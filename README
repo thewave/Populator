@@ -2,7 +2,7 @@ Populator
 ---------
 This project loads a repository with objects from your business classes. It is a complete rework from the idea of HibernateMock (thanks to Celio Vasconcelos).
 
-Populator was designed to set all fields from the bussines class, except the ones which has information.
+Populator was designed to set all fields from the business class, except the ones which has information.
 
 Usage
 -----
@@ -22,7 +22,7 @@ Usage
 	p.clear();
 
 Entities Definition
--------- ----------
+-------------------
 Populator uses the RepositoryJPA. So, it requires your business classes to fulfill some requirements.
 
 1) It must have an @Entity.
@@ -63,7 +63,7 @@ public class BasicEntity implements Serializable {
 
 
 Development Environment
------------ -----------
+-----------------------
 Eclipse
 IvyDE
 JPA (Hibernate)

@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class ClasseComAtributoNaoPadrao implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private ClasseComAtributosPadrao classeComAtributosPadrao;
 
 	public ClasseComAtributosPadrao getClasseComAtributosPadrao() {
