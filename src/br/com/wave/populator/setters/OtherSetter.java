@@ -3,10 +3,10 @@ package br.com.wave.populator.setters;
 import java.lang.reflect.Field;
 import java.util.List;
 
+import br.com.brasilti.utils.reflection.ReflectionUtil;
 import br.com.wave.populator.core.Filler;
 import br.com.wave.populator.enums.ErrorEnum;
 import br.com.wave.populator.exceptions.PopulatorException;
-import br.com.wave.utils.reflection.ReflectionUtil;
 
 public class OtherSetter extends Setter {
 

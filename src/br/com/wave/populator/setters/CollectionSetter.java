@@ -5,9 +5,9 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
+import br.com.brasilti.utils.reflection.ReflectionUtil;
 import br.com.wave.populator.core.Filler;
 import br.com.wave.populator.exceptions.PopulatorException;
-import br.com.wave.utils.reflection.ReflectionUtil;
 
 public class CollectionSetter extends Setter {
 

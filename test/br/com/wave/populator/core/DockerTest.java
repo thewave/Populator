@@ -9,11 +9,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
+import br.com.brasilti.repository.core.Keeper;
 import br.com.wave.populator.core.examples.ClasseComAtributoNaoPadrao;
 import br.com.wave.populator.core.examples.ClasseComAtributosPadrao;
 import br.com.wave.populator.core.examples.ClasseComColecaoDeAtributoNaoPadrao;
 import br.com.wave.populator.exceptions.PopulatorException;
-import br.com.wave.repository.core.Keeper;
 
 public class DockerTest {
 

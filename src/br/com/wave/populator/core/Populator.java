@@ -4,9 +4,9 @@ import java.io.Serializable;
 
 import javax.inject.Inject;
 
+import br.com.brasilti.utils.reflection.ReflectionUtil;
 import br.com.wave.populator.enums.ErrorEnum;
 import br.com.wave.populator.exceptions.PopulatorException;
-import br.com.wave.utils.reflection.ReflectionUtil;
 
 /**
  * Delega a responsabilidade de povoar instancias, alem da responsabilidade de armazena-las em um repositorio.

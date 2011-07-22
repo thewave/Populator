@@ -1,8 +1,8 @@
 package br.com.wave.populator.setters;
 
+import br.com.brasilti.utils.reflection.ReflectionUtil;
 import br.com.wave.populator.core.Filler;
 import br.com.wave.populator.exceptions.PopulatorException;
-import br.com.wave.utils.reflection.ReflectionUtil;
 
 public class PatternSetter extends Setter {
 
